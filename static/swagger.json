@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "Prototype API BETA",
+    "description": "API prototyping",
+    "termsOfService": "",
+    "contact": {
+      "name": "",
+      "url": "",
+      "email": ""
+    },
+    "license": {
+      "name": "MIT Licence",
+      "url": ""
+    }
+  },
+  "tags": [
+    {
+      "name": "Category 1",
+      "description": "Some stuff"
+    }
+  ],
+  "paths": {
+    "/sobol": {
+      "get": {
+        "description": "returns a Sobol sequence",
+        "tags": [
+          "Category 1"
+        ],
+        "parameters": [
+          {
+            "name": "dimension",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/positive_integer"
+            }
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/positive_integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Failure"
+          }
+        } 
+      }
+    },
+    "/integerise": {
+      "post": {
+        "description": "tries to find an integer array that preserves the marginal sums",
+        "tags": [
+          "Category 1"
+        ],
+        "requestBody": {
+          "description": "an n-dimensional array of floating point values with integer marginal sums",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/float_array",
+                "type": "array",
+                "items": { "type": "number" }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    }
+  },    
+  "components": {
+    "schemas": {
+      "positive_integer": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "float_array": {
+        "description": "array of floating-point numbers, NB '3.' won't parse, use '3' or '3.0'",
+        "type": "array",
+        "items": { "type": "number" }
+      }
+    }
+  }
+}
