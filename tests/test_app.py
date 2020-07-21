@@ -27,16 +27,25 @@ def test_sobol(client):
   result = json.loads(client.get(url("sobol")).data)
   assert result["code"] == 400
 
-  result = json.loads(client.get(url("sobol", {"dimension": 2, "length": 2})).data)
-  #assert result == True
+  # invalid dim
+  result = json.loads(client.get(url("sobol", {"dimension": 0, "length": 2})).data)
+  assert result["code"] == 400
+  result = json.loads(client.get(url("sobol", {"dimension": 2000, "length": 2})).data)
+  assert result["code"] == 400
+  result = json.loads(client.get(url("sobol", {"dimension": "x", "length": 2})).data)
+  assert result["code"] == 400
 
-  # result = json.loads(client.get(url("isbusinessday", {"date": "2020-03-08", "centre": "LON"})).data)
-  # assert result == False
+  result = json.loads(client.get(url("sobol", {"dimension": 2, "length": 2})).data)
+  assert isinstance(result, list)
+  assert len(result) > 0
+  assert isinstance(result[0], list)
+  assert len(result[0]) > 0
 
 
 def test_integerise(client):
   input = [1.1, 2.2, 3.3, 4.4]
   result = json.loads(client.post(url("integerise"), data=json.dumps(input)).data)
+  assert isinstance(result, dict)
   assert "result" in result
   assert "rmse" in result
   assert "conv" in result 
@@ -47,6 +56,7 @@ def test_integerise(client):
            [ 1.5,  6.0, 10.0, 7.5],
            [ 0.6,  2.4,  4.0, 3.0]]
   result = json.loads(client.post(url("integerise"), data=json.dumps(input)).data)
+  assert isinstance(result, dict)
   assert "result" in result
   assert "rmse" in result
   assert "conv" in result 

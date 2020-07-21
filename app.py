@@ -24,7 +24,17 @@ def sobol():
   Returns a Sobol sequence
   """
   try:
-    return json.dumps(hl.sobolSequence(int(request.args["dimension"]), int(request.args["length"])).tolist()), 200 #, default_response_header
+    # deferring to swagger/schema for validity means that
+    # - the schema must "know" the validity ranges of the arguments to sobolSequence
+    # - the function itself may be better at providing a meaningful error message
+    # - passing invalid values to the API directly will still fail, and possibly badly  
+    dim = int(request.args["dimension"])
+    if dim < 1 or dim > 1111:
+      raise ValueError("Sobol dimension %d is outside the valid range [1,1111]" % dim)
+    len = int(request.args["length"])
+    if len < 1 or len > 1048576:
+      raise ValueError("Sobol sequence length %d is outside the valid range [1,1048576]" % len)
+    return json.dumps(hl.sobolSequence(dim, len).tolist()), 200 #, default_response_header
   except Exception as e:
     return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400#, default_response_header
 
