@@ -21,7 +21,7 @@ import humanleague as hl
 @app.route('/sobol', methods=["GET"])
 def sobol():
   """ 
-  Returns force boundary data
+  Returns a Sobol sequence
   """
   try:
     return json.dumps(hl.sobolSequence(int(request.args["dimension"]), int(request.args["length"])).tolist()), 200 #, default_response_header
@@ -37,7 +37,7 @@ def integerise():
   """
   try:
     # json cant (de)serialise np.array
-    array = np.array(json.loads(request.get_data()))
+    array = np.array(json.loads(request.get_data())).astype(float)
     result = hl.integerise(array)
     if "result" in result:
       result["result"] = result["result"].tolist()

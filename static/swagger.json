@@ -3,16 +3,16 @@
   "info": {
     "version": "1.0.0",
     "title": "Prototype API BETA",
-    "description": "API prototyping",
+    "description": "Demonstration of how to create a simple API and automate the deployment process",
     "termsOfService": "",
     "contact": {
       "name": "",
-      "url": "",
+      "url": "https://github.com/virgesmith/protoapi",
       "email": ""
     },
     "license": {
       "name": "MIT Licence",
-      "url": ""
+      "url": "https://github.com/virgesmith/protoapi/blob/master/LICENSE"
     }
   },
   "tags": [

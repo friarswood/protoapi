@@ -1,6 +1,11 @@
 # protoapi
 
-docker/azure app service example, using flask and swagger.
+[dockerhub-badge]: https://img.shields.io/badge/images%20on-Docker%20Hub-blue.svg
+[dockerhub-link]: https://hub.docker.com/repository/docker/virgesmith/protoapi 
+
+[![Docker Hub package][dockerhub-badge]][dockerhub-link]
+
+docker/azure app service example, using flask and [open API](https://swagger.io/specification/) (f.k.a. swagger).
 
 See it in action [here](https://protocop.azurewebsites.net/api-doc)
 
@@ -13,4 +18,15 @@ See it in action [here](https://protocop.azurewebsites.net/api-doc)
 
 A commit to master will set the ball rolling:
 - docker hub will see the code changes and rebuild and test the image.
-- azure will see a new image in docker hub and deploy it automatically.
+- azure will see a new image in docker hub and deploy it automatically. 
+
+# Steps
+
+1. Fork this repo
+2. Make changes as you see fit
+3. Create a repository on e.g. docker hub
+3. Point docker hub to your repo
+5. Create a containerised app service on e.g. azure
+4. Point your app service to docker hub, using a webhook
+5. Commit your changes
+6. Profit!
