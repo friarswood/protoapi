@@ -18,6 +18,20 @@ app.debug = True
 import humanleague as hl
 
 
+
+@app.route('/version', methods=["GET"])
+def version():
+  """ 
+  Returns the version (git/docker tag)
+  """
+  try:
+    with open("./static/swagger.json") as fp:
+      return json.dumps(json.load(fp)["info"]["version"]), 200 
+  except Exception as e:
+    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
+
+
+
 @app.route('/sobol', methods=["GET"])
 def sobol():
   """ 
@@ -34,9 +48,9 @@ def sobol():
     len = int(request.args["length"])
     if len < 1 or len > 1048576:
       raise ValueError("Sobol sequence length %d is outside the valid range [1,1048576]" % len)
-    return json.dumps(hl.sobolSequence(dim, len).tolist()), 200 #, default_response_header
+    return json.dumps(hl.sobolSequence(dim, len).tolist()), 200 
   except Exception as e:
-    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400#, default_response_header
+    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
 
 
 # e.g. [1.1,2.2,3.3,4.4]
@@ -53,7 +67,7 @@ def integerise():
       result["result"] = result["result"].tolist()
     return json.dumps(result), 200#, default_response_header
   except Exception as e:
-    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400#, default_response_header
+    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
 
 # Call factory function to create our blueprint
 swaggerui_blueprint = get_swaggerui_blueprint(

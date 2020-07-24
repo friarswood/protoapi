@@ -22,9 +22,19 @@ def url(endpoint, query_params = None):
     return "/%s" % endpoint
   return "/%s?%s" % (endpoint, urlencode(query_params))
 
+def test_version(client):
+
+  response = client.get(url("version"))
+  assert response.status_code == 200
+  result = json.loads(response.data)
+  assert len(result.split(".")) == 3
+
+
 def test_sobol(client):
 
-  result = json.loads(client.get(url("sobol")).data)
+  response = client.get(url("sobol"))
+  assert response.status_code == 400
+  result = json.loads(response.data)
   assert result["code"] == 400
 
   # invalid dim
