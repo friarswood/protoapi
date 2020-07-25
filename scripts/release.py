@@ -18,7 +18,6 @@ def shell(cmd):
   if ret != 0:
     raise SystemError("'%s' returned %d" % (cmd, ret))
 
-
 # 0. warn if local modifications
 shell("[[ -z $(git status -s) ]] || echo 'WARNING: found modified/untracked files'")
 
@@ -41,11 +40,11 @@ with open(version_file, "w") as fp:
 # commit changed version
 print("Committing version update")
 shell("git add %s" % version_file)
-shell("git commit -m\"[autorelease]\" tag %s\"" % version_string)
+shell("git commit -m \"[autorelease] v%s\"" % version_string)
 
 # 4. tag and push
 print("Tagging %s" % version_string)
-shell("git tag -a -m \"[autorelease]\" %s" % version_string)
+shell("git tag -a -m \"[autorelease] tagging v%s\" %s" % (version_string, version_string))
 print("Pushing bumped version and tag to origin")
 shell("git push origin --follow-tags")
 
