@@ -30,6 +30,16 @@ def version():
   except Exception as e:
     return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
 
+@app.route('/headers', methods=["GET"])
+def headers():
+  """ 
+  Returns the https headers of the request
+  """
+  try:
+    return json.dumps({k: v for k, v in request.headers}), 200 
+  except Exception as e:
+    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
+
 
 
 @app.route('/sobol', methods=["GET"])

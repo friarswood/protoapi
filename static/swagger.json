@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "version": "1.0.3",
+    "version": "1.0.2",
     "title": "Prototype API BETA",
     "description": "Demonstration of how to create a simple API and automate the deployment process",
     "termsOfService": "",
@@ -25,6 +25,23 @@
     "/version": {
       "get": {
         "description": "returns the version",
+        "tags": [
+          "Category 1"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Failure"
+          }
+        }
+      }
+    },
+    "/headers": {
+      "get": {
+        "description": "returns the headers",
         "tags": [
           "Category 1"
         ],
