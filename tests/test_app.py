@@ -29,6 +29,12 @@ def test_version(client):
   result = json.loads(response.data)
   assert len(result.split(".")) == 3
 
+def test_headers(client):
+
+  response = client.get(url("headers"))
+  assert response.status_code == 200
+  result = json.loads(response.data)
+  assert isinstance(result, dict)
 
 def test_sobol(client):
 
