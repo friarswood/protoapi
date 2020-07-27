@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "version": "1.0.3",
+    "version": "1.0.4",
     "title": "Prototype API BETA",
     "description": "Demonstration of how to create a simple API and automate the deployment process",
     "termsOfService": "",
@@ -17,33 +17,20 @@
   },
   "tags": [
     {
-      "name": "Category 1",
-      "description": "Some stuff"
+      "name": "Numeric",
+      "description": "Does something numeric"
+    },
+    {
+      "name": "Utility",
+      "description": "Does something non-numeric"
     }
   ],
   "paths": {
-    "/version": {
-      "get": {
-        "description": "returns the version",
-        "tags": [
-          "Category 1"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Failure"
-          }
-        }
-      }
-    },
     "/headers": {
       "get": {
-        "description": "returns the headers",
+        "description": "returns the client's http headers",
         "tags": [
-          "Category 1"
+          "Utility"
         ],
         "parameters": [],
         "responses": {
@@ -60,7 +47,7 @@
       "get": {
         "description": "returns a Sobol sequence",
         "tags": [
-          "Category 1"
+          "Numeric"
         ],
         "parameters": [
           {
@@ -94,7 +81,7 @@
       "post": {
         "description": "tries to find an integer array that preserves the marginal sums",
         "tags": [
-          "Category 1"
+          "Numeric"
         ],
         "requestBody": {
           "description": "an n-dimensional array of floating point values with integer marginal sums",

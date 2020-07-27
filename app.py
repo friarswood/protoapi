@@ -18,18 +18,6 @@ app.debug = True
 import humanleague as hl
 
 
-
-@app.route('/version', methods=["GET"])
-def version():
-  """ 
-  Returns the version (git/docker tag)
-  """
-  try:
-    with open("./static/swagger.json") as fp:
-      return json.dumps(json.load(fp)["info"]["version"]), 200 
-  except Exception as e:
-    return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
-
 @app.route('/headers', methods=["GET"])
 def headers():
   """ 
@@ -73,9 +61,13 @@ def integerise():
     # json cant (de)serialise np.array
     array = np.array(json.loads(request.get_data())).astype(float)
     result = hl.integerise(array)
-    if "result" in result:
+    # if a string throw it
+    if isinstance(result, str):
+      raise ValueError(result) 
+    if isinstance(result, dict) and "result" in result:
       result["result"] = result["result"].tolist()
-    return json.dumps(result), 200#, default_response_header
+      return json.dumps(result), 200
+    
   except Exception as e:
     return { "code": 400, "name": e.__class__.__name__, "description": str(e) }, 400
 
