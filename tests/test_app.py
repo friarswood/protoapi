@@ -11,7 +11,7 @@ import requests
 
 import sys
 sys.path.append('.')
-from app import app 
+from app import app
 
 @pytest.fixture
 def client():
@@ -69,7 +69,7 @@ def test_integerise(client):
   assert isinstance(result, dict)
   assert "result" in result
   assert "rmse" in result
-  assert "conv" in result 
+  assert "conv" in result
   assert result["conv"]
 
   # invalid (non-integral) mrginal sum
@@ -79,7 +79,7 @@ def test_integerise(client):
   result = json.loads(response.data)
   assert isinstance(result, dict)
   assert result["code"] == 400
-  assert result["name"] == "ValueError"
+  assert result["type"] == "RuntimeError"
 
   input = [[ 0.3,  1.2,  2.0, 1.5],
            [ 0.6,  2.4,  4.0, 3.0],
@@ -91,7 +91,7 @@ def test_integerise(client):
   assert isinstance(result, dict)
   assert "result" in result
   assert "rmse" in result
-  assert "conv" in result 
+  assert "conv" in result
   assert result["conv"]
 
 
