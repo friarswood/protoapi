@@ -20,5 +20,5 @@ pytest==6.2.2
 PyYAML==5.4.1
 requests==2.25.1
 toml==0.10.2
-urllib3==1.26.4
+urllib3==1.26.5
 Werkzeug==1.0.1
