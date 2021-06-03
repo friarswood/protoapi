@@ -2,12 +2,15 @@
 Tests
 """
 
+import os
 import pytest
 import json
 import unittest
 from urllib.parse import urlencode
 from math import isclose
 
+import sys
+sys.path.append('.')
 import app
 
 @pytest.fixture
