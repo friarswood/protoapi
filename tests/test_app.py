@@ -7,15 +7,18 @@ import json
 import unittest
 from urllib.parse import urlencode
 from math import isclose
-import requests
 
-import sys
-sys.path.append('.')
-from app import app
+import app
 
 @pytest.fixture
-def client():
-  return app.test_client()
+def protoapi():
+  protoapi = app.create_app({"TESTING": True})
+  yield protoapi
+
+@pytest.fixture
+def client(protoapi):
+  return protoapi.test_client()
+
 
 def url(endpoint, query_params = None):
   if query_params is None:

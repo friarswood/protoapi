@@ -1,4 +1,8 @@
-#Dockerfile
+# Dockerfile
+# TODO this installs directly from the dev env, which means lots of clutter
+# Ideally, this image should be created from a package, but this changes the workflow:
+# rather than (as now) docker hub building an image from the source tree (whenever it changes), 
+# CI should create a package, and then use it to build an image and push to docker hub 
 
 FROM python
 
@@ -9,13 +13,16 @@ WORKDIR /app
 
 COPY . /app
 
-RUN python -m pip install -r requirements.txt
+RUN pip install -U pip pytest
+
+# build, test
+RUN pip install -e . && pytest
+
+# clean up
+RUN rm -rf .pytest_cache/ build/ protoapi.egg-info/ .eggs/
 
 # default Flask port
 EXPOSE 5000
-
-# testing is standalone so can be run here (whilst there is no auth)
-RUN pytest
 
 # --host needs to be explicitly set here, not in the code, see
 # https://stackoverflow.com/questions/30323224/deploying-a-minimal-flask-app-in-docker-server-connection-issues

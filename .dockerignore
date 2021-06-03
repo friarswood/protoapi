@@ -1,2 +1,7 @@
 .venv*
 __pycache__/
+.eggs/
+.git/
+.github
+.gitignore
+.dockerignore

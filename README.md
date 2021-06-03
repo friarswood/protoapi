@@ -7,11 +7,12 @@
 
 docker/azure app service example, using flask and [open API](https://swagger.io/specification/) (f.k.a. swagger).
 
-1. Expose a python package through a web API, using flask.
+1. Expose a python package through a REST API, using flask.
 2. Document the API, using swagger.
 3. Test the API, using pytest.
-4. Package the web app, in a docker container.
-5. Deploy the web app, in the cloud.
+4. Package the web app, 
+5. Install the app in a docker container.
+6. Deploy the container in the cloud.
 6. Automate!
 
 A commit to master will set the ball rolling:
