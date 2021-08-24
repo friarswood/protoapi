@@ -7,12 +7,12 @@
     "termsOfService": "",
     "contact": {
       "name": "",
-      "url": "https://github.com/virgesmith/protoapi",
+      "url": "https://github.com/virgesmith/test-appsvc",
       "email": ""
     },
     "license": {
       "name": "MIT Licence",
-      "url": "https://github.com/virgesmith/protoapi/blob/master/LICENSE"
+      "url": "https://github.com/virgesmith/test-appsvc/blob/master/LICENSE"
     }
   },
   "tags": [

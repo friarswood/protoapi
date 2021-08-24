@@ -8,7 +8,7 @@ def get_version():
 
 
 setup(
-  name='protoapi',
+  name='test-appsvc',
   version=get_version(),
   packages=find_packages(),
   include_package_data=True,

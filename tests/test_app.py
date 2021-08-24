@@ -14,13 +14,13 @@ sys.path.append('.')
 import app
 
 @pytest.fixture
-def protoapi():
-  protoapi = app.create_app({"TESTING": True})
-  yield protoapi
+def appsvc():
+  appsvc = app.create_app({"TESTING": True})
+  yield appsvc
 
 @pytest.fixture
-def client(protoapi):
-  return protoapi.test_client()
+def client(appsvc):
+  return appsvc.test_client()
 
 
 def url(endpoint, query_params = None):
