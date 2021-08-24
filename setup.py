@@ -15,7 +15,6 @@ setup(
   zip_safe=False,
   install_requires=[
     'flask',
-    'flask-swagger',
     'flask-swagger-ui',
     'humanleague'
   ],

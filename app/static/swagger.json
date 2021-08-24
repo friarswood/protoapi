@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "version": "1.1.1",
+    "version": "1.1.2",
     "title": "Prototype API BETA",
     "description": "Demonstration of how to create a simple REST API in python, using Flask, package it, and automate the deployment process",
     "termsOfService": "",
