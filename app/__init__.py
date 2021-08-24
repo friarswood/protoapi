@@ -1,7 +1,6 @@
 
 import os
 from flask import Flask, request
-from flask_swagger import swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 import numpy as np
 import json
