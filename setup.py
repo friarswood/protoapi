@@ -16,6 +16,8 @@ setup(
   install_requires=[
     'flask',
     'flask-swagger-ui',
+    'python-dotenv',
+    'opencensus-ext-azure',
     'humanleague'
   ],
   setup_requires=[
