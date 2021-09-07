@@ -39,24 +39,19 @@ def test_sobol(client):
 
   response = client.get(url("sobol"))
   assert response.status_code == 400
-  result = json.loads(response.data)
-  assert result["code"] == 400
 
   # invalid dim
   response = client.get(url("sobol", {"dimension": 0, "length": 2}))
-  assert response.status_code == 400
+  assert response.status_code == 500
   result = json.loads(response.data)
-  assert result["code"] == 400
 
   response = client.get(url("sobol", {"dimension": 2000, "length": 2}))
-  assert response.status_code == 400
+  assert response.status_code == 500
   result = json.loads(response.data)
-  assert result["code"] == 400
 
   response = client.get(url("sobol", {"dimension": "x", "length": 2}))
-  assert response.status_code == 400
+  assert response.status_code == 500
   result = json.loads(response.data)
-  assert result["code"] == 400
 
   response = client.get(url("sobol", {"dimension": 2, "length": 2}))
   assert response.status_code == 200
@@ -81,10 +76,9 @@ def test_integerise(client):
   # invalid (non-integral) mrginal sum
   input = [1.1, 2.2, 3.3, 4.5]
   response = client.post(url("integerise"), data=json.dumps(input))
-  assert response.status_code == 400
+  assert response.status_code == 500
   result = json.loads(response.data)
   assert isinstance(result, dict)
-  assert result["code"] == 400
   assert result["type"] == "RuntimeError"
 
   input = [[ 0.3,  1.2,  2.0, 1.5],
