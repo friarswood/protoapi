@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 
 # if we have an app insights key, redirect logging to it
-if "FW_APPINSIGHTS_INSTRUMENTATIONKEY" in os.environ:
+if "APPINSIGHTS_INSTRUMENTATIONKEY" in os.environ:
   # See https://docs.microsoft.com/en-us/azure/azure-monitor/app/opencensus-python-request
   # and https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-trace-logs
 
@@ -23,7 +23,7 @@ if "FW_APPINSIGHTS_INSTRUMENTATIONKEY" in os.environ:
   # from opencensus.ext.azure.trace_exporter import AzureExporter
   # from opencensus.ext.flask.flask_middleware import FlaskMiddleware
   # from opencensus.trace.samplers import ProbabilitySampler
-  logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={os.getenv("FW_APPINSIGHTS_INSTRUMENTATIONKEY")}'))
+  logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")}'))
 
 def create_app(test_config=None):
 
@@ -35,7 +35,7 @@ def create_app(test_config=None):
 
   # middleware = FlaskMiddleware(
   #   app,
-  #   exporter=AzureExporter(connection_string=f'InstrumentationKey={os.getenv("FW_APPINSIGHTS_INSTRUMENTATIONKEY")}'),
+  #   exporter=AzureExporter(connection_string=f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")}'),
   #   sampler=ProbabilitySampler(rate=1.0),
   # )
 
