@@ -12,18 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.WARNING)
-
-# if we have an app insights key, redirect logging to it
-if "APPINSIGHTS_INSTRUMENTATIONKEY" in os.environ:
-  # See https://docs.microsoft.com/en-us/azure/azure-monitor/app/opencensus-python-request
-  # and https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-trace-logs
-
-  from opencensus.ext.azure.log_exporter import AzureLogHandler
-  # from opencensus.ext.azure.trace_exporter import AzureExporter
-  # from opencensus.ext.flask.flask_middleware import FlaskMiddleware
-  # from opencensus.trace.samplers import ProbabilitySampler
-  logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")}'))
+logger.setLevel(logging.INFO)
 
 def create_app(test_config=None):
 
@@ -33,11 +22,24 @@ def create_app(test_config=None):
 
   app = Flask(__name__, instance_relative_config=True)
 
-  # middleware = FlaskMiddleware(
-  #   app,
-  #   exporter=AzureExporter(connection_string=f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")}'),
-  #   sampler=ProbabilitySampler(rate=1.0),
-  # )
+  # if we have an app insights key, redirect logging to it
+  if "APPINSIGHTS_INSTRUMENTATIONKEY" in os.environ:
+    # See https://docs.microsoft.com/en-us/azure/azure-monitor/app/opencensus-python-request
+    # and https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-trace-logs
+
+    from opencensus.ext.azure.log_exporter import AzureLogHandler
+    # from opencensus.ext.azure.trace_exporter import AzureExporter
+    # from opencensus.ext.flask.flask_middleware import FlaskMiddleware
+    # from opencensus.trace.samplers import ProbabilitySampler
+
+    connection_string = f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")};IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/'
+    logger.addHandler(AzureLogHandler(connection_string=connection_string))
+
+    # middleware = FlaskMiddleware(
+    #   app,
+    #   exporter=AzureExporter(connection_string=f'InstrumentationKey={os.getenv("APPINSIGHTS_INSTRUMENTATIONKEY")}'),
+    #   sampler=ProbabilitySampler(rate=1.0),
+    # )
 
   app.config.from_mapping(SECRET_KEY='TODO dev')
 
@@ -46,7 +48,7 @@ def create_app(test_config=None):
     """
     Returns the https headers of the request
     """
-    logger.warning("header")
+    logger.info("header")
     return json.dumps({k: v for k, v in request.headers})
 
 
@@ -65,7 +67,7 @@ def create_app(test_config=None):
     len = int(request.args["length"])
     if len < 1 or len > 1048576:
       raise ValueError("Sobol sequence length %d is outside the valid range [1,1048576]" % len)
-    logger.warning(f"sobol {dim} x {len}")
+    logger.info(f"sobol {dim} x {len}")
     return json.dumps(hl.sobolSequence(dim, len).tolist())
 
 
@@ -76,7 +78,6 @@ def create_app(test_config=None):
     Returns the closest integer array to the supplied non-integer data (with integer marginal sums), preserving the marginal sums
     """
     # json cant (de)serialise np.array
-    #logger.info("integerise")
     array = np.array(json.loads(request.get_data())).astype(float)
     result = hl.integerise(array)
     # if a string throw it
@@ -84,11 +85,12 @@ def create_app(test_config=None):
       raise ValueError(result)
     if isinstance(result, dict) and "result" in result:
       result["result"] = result["result"].tolist()
+      logger.info("integerise")
       return json.dumps(result)
 
   @app.errorhandler(Exception)
   def handle_exception(e):
-    logger.error(e)
+    logger.exception(e)
     # pass through HTTP errors
     if isinstance(e, HTTPException):
       return e
